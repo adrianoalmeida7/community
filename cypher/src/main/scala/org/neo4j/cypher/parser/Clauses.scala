@@ -51,20 +51,20 @@ trait Clauses extends JavaTokenParsers with Tokens with Values {
 
   def sequenceClause: Parser[Clause] = (allInSeq | anyInSeq | noneInSeq | singleInSeq)
 
-  def allInSeq: Parser[Clause] = ignoreCase("ALL") ~ "(" ~ value ~ "," ~ closure ~ ")" ^^ {
-    case a ~ "(" ~ seqValue ~ "," ~ closure ~ ")" => AllInSeq(seqValue, closure._1, closure._2)
+  def allInSeq: Parser[Clause] = ignoreCase("ALL") ~> "(" ~ value ~ "," ~ closure ~ ")" ^^ {
+    case "(" ~ seqValue ~ "," ~ closure ~ ")" => AllInSeq(seqValue, closure._1, closure._2)
   }
 
-  def anyInSeq: Parser[Clause] = ignoreCase("ANY") ~ "(" ~ value ~ "," ~ closure ~ ")" ^^ {
-    case a ~ "(" ~ seqValue ~ "," ~ closure ~ ")" => AnyInSeq(seqValue, closure._1, closure._2)
+  def anyInSeq: Parser[Clause] = ignoreCase("ANY") ~> "(" ~ value ~ "," ~ closure ~ ")" ^^ {
+    case "(" ~ seqValue ~ "," ~ closure ~ ")" => AnyInSeq(seqValue, closure._1, closure._2)
   }
 
-  def noneInSeq: Parser[Clause] = ignoreCase("NONE") ~ "(" ~ value ~ "," ~ closure ~ ")" ^^ {
-    case a ~ "(" ~ seqValue ~ "," ~ closure ~ ")" => NoneInSeq(seqValue, closure._1, closure._2)
+  def noneInSeq: Parser[Clause] = ignoreCase("NONE") ~> "(" ~ value ~ "," ~ closure ~ ")" ^^ {
+    case "(" ~ seqValue ~ "," ~ closure ~ ")" => NoneInSeq(seqValue, closure._1, closure._2)
   }
 
-  def singleInSeq: Parser[Clause] = ignoreCase("SINGLE") ~ "(" ~ value ~ "," ~ closure ~ ")" ^^ {
-    case a ~ "(" ~ seqValue ~ "," ~ closure ~ ")" => SingleInSeq(seqValue, closure._1, closure._2)
+  def singleInSeq: Parser[Clause] = ignoreCase("SINGLE") ~> "(" ~ value ~ "," ~ closure ~ ")" ^^ {
+    case "(" ~ seqValue ~ "," ~ closure ~ ")" => SingleInSeq(seqValue, closure._1, closure._2)
   }
 
 
@@ -95,21 +95,8 @@ trait Clauses extends JavaTokenParsers with Tokens with Values {
     case l ~ ">=" ~ r => GreaterThanOrEqual(l, r)
   }
 
-  def not: Parser[Clause] = ignoreCase("not") ~ "(" ~ clause ~ ")" ^^ {
-    case not ~ "(" ~ inner ~ ")" => Not(inner)
+  def not: Parser[Clause] = ignoreCase("not") ~> "(" ~ clause ~ ")" ^^ {
+    case "(" ~ inner ~ ")" => Not(inner)
   }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
