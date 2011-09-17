@@ -48,9 +48,19 @@ public class AsciidocHelper
         
         String safeTitle = title.replaceAll(ILLEGAL_STRINGS, "");
         
-        return  "_"+title+":_\n\n[\"dot\", \""+(safeTitle+"-"+identifier).replace( " ", "-" )+".svg\", \"neoviz\"]\n"+
+        return  "_"+title+"_\n\n[\"dot\", \""+(safeTitle+"-"+identifier).replace( " ", "-" )+".svg\", \"neoviz\"]\n"+
                 "----\n" +
                 out.toString() +
                 "----\n";
+    }
+    
+    public static String createOutputSnippet( final String output )
+    {
+        return "[source]\n----\n"+output+"\n----\n";
+    }
+    
+    public static String createCypherSnippet( final String query )
+    {
+        return "[source,cypher]\n----\n"+query+"\n----\n";
     }
 }

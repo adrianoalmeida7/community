@@ -17,28 +17,17 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.neo4j.server.rrd;
+package org.neo4j.cypher.pipes
 
-import javax.management.MalformedObjectNameException;
+import org.neo4j.cypher.SymbolTable
+import org.neo4j.cypher.commands.{Identifier, LiteralIdentifier}
 
-import org.neo4j.server.database.Database;
+class ParameterPipe(params: Map[String, Any]) extends Pipe {
+  def foreach[U](f: (Map[String, Any]) => U) {
+    f(params)
+  }
 
-public class PropertyCountSampleable extends DatabasePrimitivesSampleableBase
-{
-    public PropertyCountSampleable( Database db ) throws MalformedObjectNameException
-    {
-        super( db );
-    }
+  val identifiers: Seq[Identifier] = params.keys.map(k => LiteralIdentifier("$" + k)).toSeq
 
-    @Override
-    public String getName()
-    {
-        return "property_count";
-    }
-
-    @Override
-    protected String getJmxAttributeName()
-    {
-        return "NumberOfPropertyIdsInUse";
-    }
+  val symbols: SymbolTable = new SymbolTable(identifiers)
 }

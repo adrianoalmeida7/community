@@ -17,27 +17,28 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.neo4j.server.rrd;
-
-import javax.management.MalformedObjectNameException;
+package org.neo4j.server.rrd.sampler;
 
 import org.neo4j.server.database.Database;
+import org.rrd4j.DsType;
 
-public class NodeIdsInUseSampleable extends DatabasePrimitivesSampleableBase
+public class RequestCountSampleable extends StatisticSampleableBase
 {
 
-    public NodeIdsInUseSampleable( Database db ) throws MalformedObjectNameException
+    public RequestCountSampleable( Database db )
     {
-        super( db );
+        super( db, DsType.ABSOLUTE );
     }
 
+    @Override
     public String getName()
     {
-        return "node_count";
+        return "request_count";
     }
 
-    protected String getJmxAttributeName()
+    @Override
+    public double getValue()
     {
-        return "NumberOfNodeIdsInUse";
+        return getCurrentSnapshot().getRequests();
     }
 }
